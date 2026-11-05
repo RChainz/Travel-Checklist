@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Packing List</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="js/script.js" type="module"></script>
+</head>
+<body>
+
+<div class="interactive-checklist-template">
+    <header class="list-header">
+        <h2>Your item list</h2>
+    </header>
+    
+    <div class="progress-container">
+        <div class="progress-bar-label">
+            <span>Item acquisition</span>
+            <span id="progress-text">0%</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+    </div>
+
+    <ul class="checklist" id="itemlist">
+    </ul>
+
+    <div class="form">
+        <form id="form-new-item" class="form-new-item">
+            <label class="form-new-item-label" for="newItem">Add new item:</label>
+            <input class="form-new-item-input" type="text" id="newItem" name="newItem"><br><br>
+            <button class="form-new-item-button" type="submit">Add item</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const checklistContainer = document.querySelector('.interactive-checklist-template');
+            if (!checklistContainer) return;
+
+            const itemlist = checklistContainer.querySelector('#itemlist');
+            const progressBarFill = checklistContainer.querySelector('#progress-bar-fill');
+            const progressText = checklistContainer.querySelector('#progress-text');
+
+            const updateProgress = () => {
+                const checkboxes = checklistContainer.querySelectorAll(
+                    '.checklist-item-checkbox'
+                );
+
+                const checkedTasks = checklistContainer.querySelectorAll(
+                    '.checklist-item-checkbox:checked'
+                ).length;
+
+                const totalTasks = checkboxes.length;
+
+                const percentage = totalTasks > 0 ? (checkedTasks / totalTasks) * 100 : 0;
+
+                progressBarFill.style.width = `${percentage}%`;
+                progressText.textContent = `${Math.round(percentage)}%`;
+            };
+
+            itemlist.addEventListener('change', (e) => {
+                if (!e.target.matches('.checklist-item-checkbox')) return;
+
+                const listItem = e.target.closest('.checklist-item');
+
+                if (e.target.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                }
+
+                updateProgress();
+            });
+
+            updateProgress();
+        });
+    </script>
+</div>
+
+
+<!-- O bot (avatar + balão de fala) -->
+<div id="bot" class="bot">
+    <div id="bot-bubble" class="bot-bubble"></div>
+    <div class="bot-avatar">🤖</div>
+</div>
+
+</body>
+</html>
