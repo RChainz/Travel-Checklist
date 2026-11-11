@@ -4,6 +4,7 @@ import { Bot } from "./bot.js";
 ////////////////////// GLOBAL VARIABLES
 let currentTaskId = 0;
 let bot = new Bot();
+window.bot = bot;
 
 ////////////////////// FUNCTIONS TO HANDLE BACKEND API RESPONSES
 ///// Get items from database
@@ -104,7 +105,7 @@ function createListElement(itemName, isAcquired) {
   itemlist.appendChild(listItem);
 
   // update bot
-  updateBot("itemList", itemName);
+  updateBot("item", itemName);
 }
 
 //  Populate the checklist
